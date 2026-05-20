@@ -2,19 +2,18 @@ from setuptools import find_packages, setup
 from typing import List
 
 HYPHEN_E_DOT = '-e .'
-
 def get_requirements(file_path: str) -> List[str]:
-    '''This function will return the list of requirements'''
+    requirements = []
+    
     with open(file_path) as file_obj:
-        requirements = file_obj.readlines()
-        # Strip newlines and whitespace first
-        requirements = [req.strip() for req in requirements]
-        # Remove empty lines
-        requirements = [req for req in requirements if req]
-        # Remove '-e .' if present
-        if HYPHEN_E_DOT in requirements:
-            requirements.remove(HYPHEN_E_DOT)
-
+        for req in file_obj.readlines():
+            req = req.strip()        # Remove \n and spaces
+            if req:                  # Skip empty lines
+                requirements.append(req)
+    
+    if HYPHEN_E_DOT in requirements:
+        requirements.remove(HYPHEN_E_DOT)  # Remove '-e .'
+    
     return requirements
 
 setup(
